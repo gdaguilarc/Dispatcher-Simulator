@@ -4,7 +4,8 @@
   "description": "A dispatcher for the",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon ./index.js --config nodemon.json"
   },
   "repository": {
     "type": "git",
@@ -19,8 +20,11 @@
   "dependencies": {
     "args": "^5.0.1",
     "chalk": "^2.4.2",
+    "csv-to-array": "^1.0.2",
     "electron": "^4.0.8",
-    "express": "^4.16.4",
-    "read-csv-json": "^1.1.0"
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10"
   }
 }
