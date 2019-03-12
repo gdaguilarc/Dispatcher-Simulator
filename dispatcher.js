@@ -1,4 +1,5 @@
 const Process = require('./Process');
+const Micro = require('./Micro');
 
 class Dispatcher {
   constructor() {
@@ -14,13 +15,8 @@ class Dispatcher {
   // TODO: Initialize keys as strings
   initMicros(n) {
     for (let i = 0; i < n; i++) {
-      // TODO: Convert this into a class
-      let object = {
-        name: i,
-        total: 0,
-        tasks: []
-      };
-      this.micros.push(object);
+      let temp = new Micro(i, 0);
+      this.micros.push(temp);
     }
   }
 
@@ -33,7 +29,7 @@ class Dispatcher {
     // Write the data array
     this.dataParsing(data);
 
-    data.forEach(elem => {
+    this.data.forEach(elem => {
       // Get the micro with the less total
       this.micros.sort((a, b) => {
         return a.total - b.total;
@@ -75,17 +71,20 @@ class Dispatcher {
     // Get values
     let tcc = total === 0 ? 0 : argstcc;
 
-    let tvc = (execProcess.te / argsQantum) * argstcc - argstcc;
+    let tvc =
+      execProcess.te >= argsQantum
+        ? (execProcess.te / argsQantum) * argstcc - argstcc
+        : 0;
 
-    let tb = execProcess.blockageTimes * argsTb;
+    let timeBlocked = execProcess.blockageTimes * argsTb;
 
     // Assign Values
     execProcess.tcc = tcc;
     execProcess.tvc = tvc;
-    execProcess.tb = tb;
+    execProcess.tb = timeBlocked;
     execProcess.ti = total;
 
-    return tcc + tvc + execProcess.te + tb;
+    return tcc + tvc + execProcess.te + timeBlocked;
   }
 
   dataParsing(data) {
