@@ -4,32 +4,71 @@ class Dispatcher {
   constructor() {
     this.micros = [];
     this.data = [];
+    this.argument = {};
   }
-  solve(n, data) {
-    this.initMicros(n);
+  solve(data, argument) {
+    this.getArguments(argument);
+    this.initMicros(this.argument.micros);
     this.compute(data);
   }
+  // TODO: Initialize keys as strings
   initMicros(n) {
     for (let i = 0; i < n; i++) {
-      this.micros[i].push({ total: 0, tasks: [] });
+      this.micros[i] = { total: 0, tasks: [] };
     }
+  }
+
+  getArguments(argument) {
+    this.argument = argument;
   }
 
   // TODO: Compute method
   compute(data) {
-<<<<<<< HEAD
+    // Write the data array
     this.dataParsing(data);
-=======
-    //dataparsing
-    //buscar micro con menor tiempo --> menor ID
-    //checar tiempo de entrada del proceso =< total del micro que se escogió
-      //sino es =< 
-        //filter micro con tiempo < tiempo de entrada 
-         //volver total de esos micros al T entrada 
-         //total de ese micro - 1TC   *
-      //si si es y continuación
-        //total += ejecución/quantum*TCC + ejecución + bloqueo*#bloqueo
->>>>>>> 7ae173e456758a126e8793905f746d8515585161
+
+    data.forEach(elem => {
+      // Get the micro with the less total
+      this.micros.sort((a, b) => {
+        return a.total - b.total;
+      });
+
+      if (elem.readyTime <= this.micros[0].total) {
+        micros[0].total += operation(
+          micros[0].total,
+          this.argument.tcc,
+          this.argument.tb,
+          this.argument.quantum,
+          elem
+        );
+      } else {
+        this.micros.forEach(micro => {
+          if (micro.total < elem.readyTime) {
+            micro.total = elem.readyTime;
+          }
+        });
+        this.compute(this.data);
+      }
+
+      elem.completed = true;
+    });
+  }
+
+  operation(total, argstcc, argsTb, argsQantum, execProcess) {
+    // Get values
+    let tcc = total === 0 ? 0 : argstcc;
+
+    let tvc = (execProcess.te / argsQantum) * argstcc - argstcc;
+
+    let tb = execProcess.blockageTimes * argsTb;
+
+    // Assign Values
+    execProcess.tcc = tcc;
+    execProcess.tvc = tvc;
+    execProcess.tb = tb;
+    execProcess.ti = total;
+
+    return tcc + tvc + execProcess.te + tb;
   }
 
   dataParsing(data) {
@@ -51,5 +90,3 @@ class Dispatcher {
 }
 
 module.exports = Dispatcher;
-
-
