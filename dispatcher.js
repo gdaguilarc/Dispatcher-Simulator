@@ -16,7 +16,17 @@ class Dispatcher {
   }
 
   // TODO: Compute method
-  compute(data) {}
+  compute(data) {
+    //dataparsing
+    //buscar micro con menor tiempo --> menor ID
+    //checar tiempo de entrada del proceso =< total del micro que se escogió
+      //sino es =< 
+        //filter micro con tiempo < tiempo de entrada 
+         //volver total de esos micros al T entrada 
+         //total de ese micro - 1TC   *
+      //si si es y continuación
+        //total += ejecución/quantum*TCC + ejecución + bloqueo*#bloqueo
+  }
 
   dataParsing(data) {
     data.sort((a, b) => {
@@ -37,3 +47,5 @@ class Dispatcher {
 }
 
 module.exports = Dispatcher;
+
+
