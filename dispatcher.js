@@ -16,7 +16,9 @@ class Dispatcher {
   }
 
   // TODO: Compute method
-  compute(data) {}
+  compute(data) {
+    this.dataParsing(data);
+  }
 
   dataParsing(data) {
     data.sort((a, b) => {
