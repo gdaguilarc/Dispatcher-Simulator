@@ -14,7 +14,13 @@ class Dispatcher {
   // TODO: Initialize keys as strings
   initMicros(n) {
     for (let i = 0; i < n; i++) {
-      this.micros[i] = { total: 0, tasks: [] };
+      // TODO: Convert this into a class
+      let object = {
+        name: i,
+        total: 0,
+        tasks: []
+      };
+      this.micros.push(object);
     }
   }
 
@@ -34,8 +40,8 @@ class Dispatcher {
       });
 
       if (elem.readyTime <= this.micros[0].total) {
-        micros[0].total += operation(
-          micros[0].total,
+        this.micros[0].total += this.operation(
+          this.micros[0].total,
           this.argument.tcc,
           this.argument.tb,
           this.argument.quantum,
@@ -47,7 +53,18 @@ class Dispatcher {
             micro.total = elem.readyTime;
           }
         });
-        this.compute(this.data);
+
+        let firstMicro = this.micros.find(elem => {
+          return (elem.name = 1);
+        });
+
+        firstMicro.total += this.operation(
+          firstMicro.total,
+          this.argument.tcc,
+          this.argument.tb,
+          this.argument.quantum,
+          elem
+        );
       }
 
       elem.completed = true;
