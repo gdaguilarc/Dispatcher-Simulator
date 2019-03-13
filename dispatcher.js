@@ -54,7 +54,7 @@ class Dispatcher {
 
         firstMicro.total += this.operation(
           firstMicro.total,
-          this.argument.tcc,
+          0,
           this.argument.tb,
           this.argument.quantum,
           elem
@@ -66,13 +66,18 @@ class Dispatcher {
   }
 
   operation(total, argstcc, argsTb, argsQantum, execProcess) {
+    // Check if process is ready
+    if (execProcess.readyTime > total) {
+      total = execProcess.readyTime;
+    }
+
     // Get values
     let tcc = total === 0 ? 0 : argstcc;
 
     let tvc =
-      execProcess.te >= argsQantum
-        ? (execProcess.te / argsQantum) * argstcc - argstcc
-        : 0;
+      execProcess.te >= argsQantum ?
+      (execProcess.te / argsQantum) * argstcc - argstcc :
+      0;
 
     let timeBlocked = execProcess.blockageTimes * argsTb;
 
