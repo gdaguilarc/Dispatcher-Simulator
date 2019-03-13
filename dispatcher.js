@@ -12,7 +12,6 @@ class Dispatcher {
     this.initMicros(this.argument.micros);
     this.compute(data);
   }
-  // TODO: Initialize keys as strings
   initMicros(n) {
     for (let i = 0; i < n; i++) {
       let temp = new Micro(i, 0);
@@ -24,7 +23,6 @@ class Dispatcher {
     this.argument = argument;
   }
 
-  // TODO: Compute method
   compute(data) {
     // Write the data array
     this.dataParsing(data);
