@@ -13,6 +13,8 @@ class Process {
     this.tb = 0;
     this.ti = 0;
     this.completed = false;
+    this.micro = null;
+    this.tt = 0;
   }
 }
 

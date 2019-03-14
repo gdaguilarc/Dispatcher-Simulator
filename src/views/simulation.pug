@@ -1,0 +1,31 @@
+extends layout.pug
+
+block content
+  div.center-wrapper
+    
+      table.table
+        thead
+          tr
+            th(scope="col") Jerarquia
+            th(scope="col") Proceso
+            th(scope="col") TCC
+            th(scope="col") TVC
+            th(scope="col") TE
+            th(scope="col") TB
+            th(scope="col") TI
+            th(scope="col") TF
+            th(scope="col") Microprocesador
+        tbody
+          each task, index in tasks
+            tr
+              th(scope="row")= index
+              td= task.name
+              td= task.tcc
+              td= task.tvc
+              td= task.te
+              td= task.tb
+              td= task.ti
+              td= task.tt
+              td= task.micro
+    
+  

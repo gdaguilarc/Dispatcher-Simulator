@@ -53,7 +53,22 @@ app.post('/upload', async function(req, res) {
     quantum: parseInt(req.body.quantum)
   });
 
-  res.send(dispatcher);
+  let values = dispatcher.data;
+  let result = [];
+
+  for (let i = 0; i < req.body.micros; i++) {
+    let temp = values.filter(elem => {
+      return elem.micro == i;
+    });
+    temp.sort((a, b) => {
+      return a.ti - b.ti;
+    });
+    result = result.concat(temp);
+  }
+
+  res.render('simulation', {
+    tasks: result
+  });
 });
 
 // Starting the server

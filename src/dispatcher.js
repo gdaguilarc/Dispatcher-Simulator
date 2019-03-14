@@ -11,6 +11,12 @@ class Dispatcher {
     this.getArguments(argument);
     this.initMicros(this.argument.micros);
     this.compute(data);
+    this.getTotals(this.data);
+  }
+  getTotals(data) {
+    data.forEach(elem => {
+      elem.tt = elem.tcc + elem.tvc + elem.tb + elem.ti + elem.te;
+    });
   }
   initMicros(n) {
     for (let i = 0; i < n; i++) {
@@ -30,16 +36,16 @@ class Dispatcher {
     let waited = false;
 
     this.data.forEach(elem => {
-      // Get the micro with the less total
       this.micros.sort((a, b) => {
         return a.total - b.total;
       });
 
       let firstMicro = this.micros.find(elem => {
-        return (elem.name = 1);
+        return elem.name == 1;
       });
 
       let realtcc = this.argument.tcc;
+
       if (elem.readyTime <= this.micros[0].total) {
         if (
           (waited || this.micros[0].total == 0) &&
@@ -48,6 +54,7 @@ class Dispatcher {
           realtcc = 0;
           waited = false;
         }
+        elem.micro = this.micros[0].name;
 
         this.micros[0].total += this.operation(
           this.micros[0].total,
@@ -71,6 +78,7 @@ class Dispatcher {
           this.argument.quantum,
           elem
         );
+        elem.micro = firstMicro.name;
       }
 
       elem.completed = true;
