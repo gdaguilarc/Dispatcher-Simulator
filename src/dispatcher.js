@@ -27,29 +27,41 @@ class Dispatcher {
     // Write the data array
     this.dataParsing(data);
 
+    let waited = false;
+
     this.data.forEach(elem => {
       // Get the micro with the less total
       this.micros.sort((a, b) => {
         return a.total - b.total;
       });
 
+      let firstMicro = this.micros.find(elem => {
+        return (elem.name = 1);
+      });
+
+      let realtcc = this.argument.tcc;
       if (elem.readyTime <= this.micros[0].total) {
+        if (
+          (waited || this.micros[0].total == 0) &&
+          this.micros[0].total === elem.readyTime
+        ) {
+          realtcc = 0;
+          waited = false;
+        }
+
         this.micros[0].total += this.operation(
           this.micros[0].total,
-          this.argument.tcc,
+          realtcc,
           this.argument.tb,
           this.argument.quantum,
           elem
         );
       } else {
+        waited = true;
         this.micros.forEach(micro => {
           if (micro.total < elem.readyTime) {
             micro.total = elem.readyTime;
           }
-        });
-
-        let firstMicro = this.micros.find(elem => {
-          return (elem.name = 1);
         });
 
         firstMicro.total += this.operation(
@@ -72,12 +84,12 @@ class Dispatcher {
     }
 
     // Get values
-    let tcc = total === 0 ? 0 : argstcc;
+    let tcc = argstcc;
 
     let tvc =
-      execProcess.te >= argsQantum ?
-      (execProcess.te / argsQantum) * argstcc - argstcc :
-      0;
+      execProcess.te >= argsQantum
+        ? (execProcess.te / argsQantum) * argstcc - argstcc
+        : 0;
 
     let timeBlocked = execProcess.blockageTimes * argsTb;
 

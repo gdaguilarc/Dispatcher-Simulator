@@ -1,6 +1,6 @@
 const Dispatcher = require('./dispatcher');
 const Arguments = require('./arguments');
-const data = require('./data');
+const data = require('../data/data.json');
 const chalk = require('chalk');
 
 let dispatcher = new Dispatcher();
