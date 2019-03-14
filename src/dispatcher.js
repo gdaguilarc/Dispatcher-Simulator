@@ -88,7 +88,7 @@ class Dispatcher {
 
     let tvc =
       execProcess.te >= argsQantum
-        ? (execProcess.te / argsQantum) * argstcc - argstcc
+        ? Math.ceil(execProcess.te / argsQantum) * argstcc - argstcc
         : 0;
 
     let timeBlocked = execProcess.blockageTimes * argsTb;

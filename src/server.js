@@ -6,6 +6,8 @@ const path = require('path');
 const engine = require('pug');
 const morgan = require('morgan');
 
+const csvFilePath = path.join(__dirname, 'temp', 'input.csv');
+const csv = require('csvtojson');
 // initializations
 const app = express();
 
@@ -34,39 +36,25 @@ app.post('/upload', async function(req, res) {
 
   let sampleFile = req.files.sample;
 
-  sampleFile.mv('input.csv', function(err) {
-    if (err) return res.status(500).send(err);
+  await sampleFile.mv(csvFilePath, function(err) {
+    if (err) {
+      console.log(err);
+    }
   });
-
-  await parser;
-
   let dispatcher = new Dispatcher();
-  console.log(req.body);
-  await algorithm(dispatcher, req);
+  console.log(path.join(__dirname, 'input.csv'));
+
+  const jsonArray = await csv().fromFile(csvFilePath);
+
+  dispatcher.solve(jsonArray, {
+    tcc: parseInt(req.body.tcc),
+    tb: parseInt(req.body.tb),
+    micros: parseInt(req.body.micros),
+    quantum: parseInt(req.body.quantum)
+  });
 
   res.send(dispatcher);
 });
-
-var parser = function() {
-  const fileInputName = 'input.csv';
-  const fileOutputName = 'data.json';
-
-  csvToJson.fieldDelimiter(',').getJsonFromCsv(fileInputName);
-  csvToJson.generateJsonFileFromCsv(fileInputName, fileOutputName);
-};
-
-var algorithm = function(dispatcher, req, err) {
-  if (err) {
-    setTimeout(algorithm(dispatcher, req), 1000);
-  } else {
-    dispatcher.solve(require('../data.json'), {
-      tcc: parseInt(req.body.tcc),
-      tb: parseInt(req.body.tb),
-      micros: parseInt(req.body.micros),
-      quantum: parseInt(req.body.quantum)
-    });
-  }
-};
 
 // Starting the server
 app.listen(app.get('port'), () => {
