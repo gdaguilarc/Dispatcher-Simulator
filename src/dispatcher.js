@@ -54,7 +54,13 @@ class Dispatcher {
           realtcc = 0;
           waited = false;
         }
-        elem.micro = this.micros[0].name;
+
+        if(realtcc === 0){
+          elem.micro = this.firstMicro.name;
+        }else{
+          elem.micro = this.micros[0].name;
+        }
+        
 
         this.micros[0].total += this.operation(
           this.micros[0].total,
