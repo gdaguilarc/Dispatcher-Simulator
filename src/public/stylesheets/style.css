@@ -43,6 +43,11 @@ p {
   display: grid;
   grid-template-columns: 11.1% 11.1% 11.1% 11.1% 11.1% 11.1% 11.1% 11.1% 11.1%
 }
+.hueco{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .header{
   background-color:#005670;
   color: white;

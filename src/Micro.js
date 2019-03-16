@@ -1,7 +1,8 @@
 class Micro {
-  constructor(name, total) {
+  constructor(name, total, waited) {
     this.name = name;
     this.total = total;
+    this.waited = waited;
   }
 }
 

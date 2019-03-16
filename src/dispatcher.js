@@ -20,7 +20,7 @@ class Dispatcher {
   }
   initMicros(n) {
     for (let i = 0; i < n; i++) {
-      let temp = new Micro(i, 0);
+      let temp = new Micro(i, 0, false);
       this.micros.push(temp);
     }
   }
@@ -33,87 +33,73 @@ class Dispatcher {
     // Write the data array
     this.dataParsing(data);
 
-    let waited = false;
-
     this.data.forEach(elem => {
       this.micros.sort((a, b) => {
         return a.total - b.total;
       });
 
-      let firstMicro = this.micros.find(elem => {
-        return elem.name == 1;
-      });
-
       let realtcc = this.argument.tcc;
-
-      if (elem.readyTime <= this.micros[0].total) {
-        if (
-          (waited || this.micros[0].total == 0) &&
-          this.micros[0].total === elem.readyTime
-        ) {
-          realtcc = 0;
-          waited = false;
-        }
-
-        if(realtcc === 0){
-          elem.micro = this.firstMicro.name;
-        }else{
-          elem.micro = this.micros[0].name;
-        }
-        
-
-        this.micros[0].total += this.operation(
-          this.micros[0].total,
-          realtcc,
-          this.argument.tb,
-          this.argument.quantum,
-          elem
-        );
-      } else {
-        waited = true;
+      if (
+        this.micros[0].total === 0 &&
+        this.micros[0].total >= elem.readyTime
+      ) {
+        realtcc = 0;
+      } else if (this.micros[0].total < elem.readyTime) {
         this.micros.forEach(micro => {
           if (micro.total < elem.readyTime) {
             micro.total = elem.readyTime;
+            micro.waited = true;
           }
         });
+      }
+      this.micros.sort((a, b) =>
+        a.total > b.total
+          ? 1
+          : a.total === b.total
+          ? a.name > b.name
+            ? 1
+            : -1
+          : -1
+      );
 
-        firstMicro.total += this.operation(
-          firstMicro.total,
-          0,
-          this.argument.tb,
-          this.argument.quantum,
-          elem
-        );
-        elem.micro = firstMicro.name;
+      if (this.micros[0].waited === true) {
+        elem.wait = true;
+        this.micros[0].waited = false;
+        realtcc = 0;
       }
 
-      elem.completed = true;
+      elem.micro = this.micros[0].name;
+      this.micros[0].total += this.operation(
+        this.micros[0].total,
+        realtcc,
+        this.argument.tcc,
+        this.argument.tb,
+        this.argument.quantum,
+        elem
+      );
     });
   }
 
-  operation(total, argstcc, argsTb, argsQantum, execProcess) {
-    // Check if process is ready
-    if (execProcess.readyTime > total) {
-      total = execProcess.readyTime;
-    }
-
-    // Get values
-    let tcc = argstcc;
-
+  operation(total, realtcc, argstcc, argsTb, argsQantum, execProcess) {
+    //create variables
+    let tcc = realtcc;
     let tvc =
       execProcess.te >= argsQantum
         ? Math.ceil(execProcess.te / argsQantum) * argstcc - argstcc
         : 0;
+    let tb = execProcess.blockageTimes * argsTb;
+    let ti = total;
+    let te = execProcess.te;
+    let tt = tcc + te + tvc + tb;
+    console.log(tt);
 
-    let timeBlocked = execProcess.blockageTimes * argsTb;
-
-    // Assign Values
+    //set variables
     execProcess.tcc = tcc;
     execProcess.tvc = tvc;
-    execProcess.tb = timeBlocked;
-    execProcess.ti = total;
-
-    return tcc + tvc + execProcess.te + timeBlocked;
+    execProcess.tb = tb;
+    execProcess.ti = ti;
+    execProcess.tt = tt;
+    return tt;
   }
 
   dataParsing(data) {

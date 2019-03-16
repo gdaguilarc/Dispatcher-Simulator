@@ -15,6 +15,7 @@ class Process {
     this.completed = false;
     this.micro = null;
     this.tt = 0;
+    this.wait = false;
   }
 }
 

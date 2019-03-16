@@ -14,16 +14,22 @@ block content
     p= 'TF'
   div.fake
   each task in tasks
-    div.card.card-body
+    
+    if task.wait
+      div.card.hueco
+        p.item= 'hueco'
+    
+    div.card
       p.item= task.micro
       p.item= task.name 
       p.item= task.tcc
       p.item= task.te
       p.item= task.tvc
       p.item= task.tb
-      p.item= task.tt
+      p.item= task.tt - task.ti
       p.item= task.ti
       p.item= task.tt
+    
 
     
    
