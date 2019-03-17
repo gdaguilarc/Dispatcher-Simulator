@@ -34,24 +34,6 @@ class Dispatcher {
     this.dataParsing(data);
 
     this.data.forEach(elem => {
-      this.micros.sort((a, b) => {
-        return a.total - b.total;
-      });
-
-      let realtcc = this.argument.tcc;
-      if (
-        this.micros[0].total === 0 &&
-        this.micros[0].total >= elem.readyTime
-      ) {
-        realtcc = 0;
-      } else if (this.micros[0].total < elem.readyTime) {
-        this.micros.forEach(micro => {
-          if (micro.total < elem.readyTime) {
-            micro.total = elem.readyTime;
-            micro.waited = true;
-          }
-        });
-      }
       this.micros.sort((a, b) =>
         a.total > b.total
           ? 1
@@ -62,15 +44,45 @@ class Dispatcher {
           : -1
       );
 
-      if (this.micros[0].waited === true) {
+      let realtcc = this.argument.tcc;
+      let i = 0;
+      if (
+        this.micros[i].total === 0 &&
+        this.micros[i].total >= elem.readyTime
+      ) {
+        realtcc = 0;
+      } else if (this.micros[i].total < elem.readyTime) {
+        i = this.micros.length;
+
+        this.micros.sort((a, b) =>
+          a.name > b.name
+            ? 1
+            : a.name === b.name
+            ? a.total > b.total
+              ? 1
+              : -1
+            : -1
+        );
+
+        this.micros.forEach(micro => {
+          if (micro.total < elem.readyTime && micro.name < i) {
+            i = micro.name;
+          }
+        });
+
+        this.micros[i].total = elem.readyTime;
+        this.micros[i].waited = true;
+      }
+
+      if (this.micros[i].waited === true) {
         elem.wait = true;
-        this.micros[0].waited = false;
+        this.micros[i].waited = false;
         realtcc = 0;
       }
 
-      elem.micro = this.micros[0].name;
-      this.micros[0].total += this.operation(
-        this.micros[0].total,
+      elem.micro = this.micros[i].name;
+      this.micros[i].total += this.operation(
+        this.micros[i].total,
         realtcc,
         this.argument.tcc,
         this.argument.tb,
@@ -91,7 +103,6 @@ class Dispatcher {
     let ti = total;
     let te = execProcess.te;
     let tt = tcc + te + tvc + tb;
-    console.log(tt);
 
     //set variables
     execProcess.tcc = tcc;
