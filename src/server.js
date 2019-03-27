@@ -18,7 +18,9 @@ app.set('view engine', 'pug');
 
 // middlewares
 app.use(morgan('dev'));
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({
+  extended: false
+}));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -29,14 +31,14 @@ app.get('/', (req, res, next) => {
   res.render('index');
 });
 
-app.post('/upload', async function(req, res) {
+app.post('/upload', async function (req, res) {
   if (Object.keys(req.files).length == 0) {
     return res.status(400).send('No files were uploaded.');
   }
 
   let sampleFile = req.files.sample;
 
-  await sampleFile.mv(csvFilePath, function(err) {
+  await sampleFile.mv(csvFilePath, function (err) {
     if (err) {
       console.log(err);
     }
@@ -65,9 +67,23 @@ app.post('/upload', async function(req, res) {
     });
     result = result.concat(temp);
   }
+
+  let usedMicros = [...new Set(result.map(process => {
+    return process.micro
+  }))];
+
+  let unUsedMicros = [];
+
+  for (let i = 0; i <= req.body.micros; i++) {
+    if (!usedMicros.includes(i)) {
+      unUsedMicros.push(i);
+    }
+  }
+
   res.render('simulation', {
     tasks: result,
-    micros: req.body.micros
+    micros: req.body.micros,
+    unused: unUsedMicros
   });
 });
 

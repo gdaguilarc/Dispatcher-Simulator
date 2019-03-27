@@ -39,6 +39,7 @@ block content
       p.item= task.tt - task.ti
       p.item= task.ti
       p.item= task.tt
+<<<<<<< HEAD
     
     -total = task.tt
     -micro = task.micro
@@ -47,6 +48,35 @@ block content
   
     
    
+=======
+  
+  each micro in unused
+
+    div.card.header.name
+          p.item= 'Micro'
+          p.item= micro
+    div.card.header
+          p= 'Micro'
+          p= 'Proceso'
+          p= 'TCC'
+          p= 'TE'
+          p= 'TVC'
+          p= 'TB'
+          p= 'TT'
+          p= 'TI'
+          p= 'TF'
+
+    div.card
+      p.item= micro
+      p.item= '-' 
+      p.item= '-'
+      p.item= '-'
+      p.item= '-'
+      p.item= '-'
+      p.item= '-'
+      p.item= '0'
+      p.item= '0'
+>>>>>>> 14ddeb9afe70ff10a0715ec56e3166dae464343e
       
     
    
