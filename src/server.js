@@ -65,9 +65,9 @@ app.post('/upload', async function(req, res) {
     });
     result = result.concat(temp);
   }
-
   res.render('simulation', {
-    tasks: result
+    tasks: result,
+    micros: req.body.micros
   });
 });
 

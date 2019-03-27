@@ -47,27 +47,18 @@ p {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: row;
 }
 .header{
-  background-color:#005670;
+  background-color:#8db9ca;
   color: white;
   font-weight: 500;
-  z-index: 3;
-  top: 1.5rem;
-  left: 25%;
-  text-align: center;
-  align-items: center;
-  padding: 0 1rem;
-  position: fixed;
-  border-radius: .5rem;
-  width: 50%;
-  height: 7vh;
-  display: grid;
-  grid-template-columns: 11.1% 11.1% 11.1% 11.1% 11.1% 11.1% 11.1% 11.1% 11.1%
-  
 }
 
-.fake{
-  width: 50%;
-  height: 10vh;
+.name{
+  font-size: 30px;
+  font-weight: bold;background-color:#005670;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }

@@ -1,24 +1,29 @@
 extends layout.pug
 
 block content
-
-  div.header
-    p= 'Micro'
-    p= 'Proceso'
-    p= 'TCC'
-    p= 'TE'
-    p= 'TVC'
-    p= 'TB'
-    p= 'TT'
-    p= 'TI'
-    p= 'TF'
-  div.fake
   each task in tasks
-    
+      
     if task.wait
       div.card.hueco
         p.item= 'Hueco'
-    
+
+    case task.ti
+      when 0
+        div.card.header.name
+          p.item= 'Micro'
+          p.item= task.micro
+        div.card.header
+          p= 'Micro'
+          p= 'Proceso'
+          p= 'TCC'
+          p= 'TE'
+          p= 'TVC'
+          p= 'TB'
+          p= 'TT'
+          p= 'TI'
+          p= 'TF'
+        
+
     div.card
       p.item= task.micro
       p.item= task.name 
