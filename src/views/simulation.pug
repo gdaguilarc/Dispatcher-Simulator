@@ -1,14 +1,12 @@
 extends layout.pug
 
 block content
+  -let total = 0;
+  -let micro = -1
   each task in tasks
-      
-    if task.wait
-      div.card.hueco
-        p.item= 'Hueco'
-
-    case task.ti
-      when 0
+    
+    if  micro < task.micro
+        -total = 0
         div.card.header.name
           p.item= 'Micro'
           p.item= task.micro
@@ -22,7 +20,14 @@ block content
           p= 'TT'
           p= 'TI'
           p= 'TF'
-        
+
+    if task.wait
+      div.card.hueco
+        p.item= 'Hueco'
+        p.item= 'Tiempo inicio: '  + total
+        p.item= 'Tiempo final: ' + task.ti
+
+         
 
     div.card
       p.item= task.micro
@@ -35,7 +40,11 @@ block content
       p.item= task.ti
       p.item= task.tt
     
-
+    -total = task.tt
+    -micro = task.micro
+    
+     
+  
     
    
       
