@@ -1,23 +1,25 @@
 extends layout.pug
 
 block content
-  div.center-wrapper
-      h1.title Dispatcher Simulator
-      form(method='POST' action='/upload' ref = 'uploadForm' id = 'uploadForm' encType = "multipart/form-data")
-        div.double-wrapper
-          div.form-group.items
-            label(for='tcc') TCC:
-            input.form-control(type='number', placeholder='10' name='tcc')
-          div.form-group.items
-            label(for='tb') Tiempo por Bloqueo (TB):
-            input.form-control(type='number', placeholder='10' name='tb') 
-        div.double-wrapper
-          div.form-group.items
-            label(for='micros') Microprocesadores:
-            input.form-control(type='number', placeholder='2' name='micros')
-          div.form-group.items
-            label(for='quantum') Tamaño del Quantum:
-            input.form-control(type='number' name='quantum')
-        input(name="sample" type="file")
-        div.button-wrapper
-          button.btn.btn-primary.button(type='submit') Simular
+  body
+    div.center-wrapper
+        h1.title Dispatcher Simulator
+        form(method='POST' action='/upload' ref = 'uploadForm' id = 'uploadForm' encType = "multipart/form-data")
+          div.double-wrapper
+            div.form-group.items
+              label(for='tcc') TCC:
+              input.form-control(type='number', placeholder='10' name='tcc')
+            div.form-group.items
+              label(for='tb') Tiempo por Bloqueo (TB):
+              input.form-control(type='number', placeholder='10' name='tb') 
+          div.double-wrapper
+            div.form-group.items
+              label(for='micros') Microprocesadores:
+              input.form-control(type='number', placeholder='2' name='micros')
+            div.form-group.items
+              label(for='quantum') Tamaño del Quantum:
+              input.form-control(type='number' name='quantum')
+          div.double-wrapper
+            input(name="sample" type="file")
+          div.button-wrapper
+            button.btn.btn-primary.button(type='submit') Simular
