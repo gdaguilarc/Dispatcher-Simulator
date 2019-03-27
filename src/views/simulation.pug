@@ -2,10 +2,10 @@ extends layout.pug
 
 block content
   -let total = 0;
-  -let micro = -1
+  -let m = -1
   each task in tasks
     
-    if  micro < task.micro
+    if  m < task.micro
         -total = 0
         div.card.header.name
           p.item= 'Micro'
@@ -27,7 +27,6 @@ block content
         p.item= 'Tiempo inicio: '  + total
         p.item= 'Tiempo final: ' + task.ti
 
-         
 
     div.card
       p.item= task.micro
@@ -39,17 +38,10 @@ block content
       p.item= task.tt - task.ti
       p.item= task.ti
       p.item= task.tt
-<<<<<<< HEAD
     
     -total = task.tt
-    -micro = task.micro
+    -m = task.micro
     
-     
-  
-    
-   
-=======
-  
   each micro in unused
 
     div.card.header.name
@@ -76,7 +68,6 @@ block content
       p.item= '-'
       p.item= '0'
       p.item= '0'
->>>>>>> 14ddeb9afe70ff10a0715ec56e3166dae464343e
       
     
    
