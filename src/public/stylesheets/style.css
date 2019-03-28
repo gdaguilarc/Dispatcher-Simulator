@@ -23,6 +23,7 @@ p {
 }
 .button {
   margin: 1rem auto;
+  margin-left: 1.3rem;
 }
 .title {
   margin-bottom: 2rem;
