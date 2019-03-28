@@ -8,17 +8,17 @@ block content
           div.double-wrapper
             div.form-group.items
               label(for='tcc') TCC:
-              input.form-control(type='number', placeholder='10' name='tcc')
+              input.form-control(type='number', placeholder='10' name='tcc' min="1")
             div.form-group.items
               label(for='tb') Tiempo por Bloqueo (TB):
-              input.form-control(type='number', placeholder='10' name='tb') 
+              input.form-control(type='number', placeholder='10' name='tb' min="1") 
           div.double-wrapper
             div.form-group.items
               label(for='micros') Microprocesadores:
-              input.form-control(type='number', placeholder='2' name='micros')
+              input.form-control(type='number', placeholder='2' name='micros' min="1")
             div.form-group.items
               label(for='quantum') Tamaño del Quantum:
-              input.form-control(type='number' name='quantum')
+              input.form-control(type='number' name='quantum' min="1")
           div.double-wrapper
             input(name="sample" type="file")
           div.button-wrapper
